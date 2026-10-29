@@ -53,7 +53,7 @@
     .hero-tag{font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--naranja);margin-bottom:18px;display:inline-flex;align-items:center;gap:8px;background:white;padding:7px 16px;border-radius:30px}
     .hero-title{font-family:'Playfair Display',serif;font-size:clamp(34px,4.5vw,54px);font-weight:600;line-height:1.15;margin-bottom:18px;color:var(--texto);text-align:left}
     .hero-title em{font-style:italic;font-weight:600;color:var(--naranja)}
-    .hero-sub{font-size:15px;color:var(--texto2);margin-bottom:32px;font-weight:300;max-width:420px;text-align:left}
+    .hero-sub{text-wrap:pretty;font-size:15px;color:var(--texto2);margin-bottom:32px;font-weight:300;max-width:420px;text-align:left}
     .search-wrap{max-width:460px;margin:0;position:relative}
     .search-wrap input{width:100%;border:1.5px solid var(--borde);border-radius:40px;padding:15px 56px 15px 22px;font-size:14px;font-family:'Inter',sans-serif;color:var(--texto);outline:none;transition:border-color 0.3s;background:white;box-shadow:0 4px 16px rgba(232,119,46,0.08)}
     .search-wrap input:focus{border-color:var(--naranja)}
@@ -98,6 +98,8 @@
     .badge-fisico{background:#1A1A1A;color:white}
     .badge-ebook{background:#2B6CB0;color:white}
     .badge-ambos{background:#276749;color:white}
+    #catalogo-section{scroll-margin-top:68px}
+    .badge-best{position:absolute;left:10px;top:38px;font-size:9px;font-weight:700;letter-spacing:1px;padding:4px 9px;border-radius:20px;text-transform:uppercase;background:var(--texto);color:white}
     .badge-nuevo{position:absolute;top:10px;left:10px;font-size:9px;font-weight:700;letter-spacing:1px;padding:4px 9px;border-radius:20px;text-transform:uppercase;background:var(--naranja);color:white;top:38px}
     .book-cover{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 18px;text-align:center;position:relative;overflow:hidden}
     .book-cover::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,0.15),transparent 60%)}
@@ -319,20 +321,20 @@
 <!-- MOBILE NAV -->
 <div class="nav-mobile" id="mobileNav">
   <button class="nav-mobile-close" onclick="toggleNav()">✕</button>
-  <a href="#" onclick="showCatalogo();toggleNav()">Tienda</a>
-  <a href="#" onclick="showNovedades();toggleNav()">Novedades</a>
-  <a href="#" onclick="showBestsellers();toggleNav()">Bestsellers</a>
-  <a href="#" onclick="showEbooks();toggleNav()">Ebooks</a>
+  <a href="#" onclick="irAlCatalogo('todos');toggleNav();return false">Tienda</a>
+  <a href="#" onclick="irAlCatalogo('novedades');toggleNav();return false">Novedades</a>
+  <a href="#" onclick="irAlCatalogo('bestsellers');toggleNav();return false">Bestsellers</a>
+  <a href="#" onclick="irAlCatalogo('ebooks');toggleNav();return false">Ebooks</a>
 </div>
 
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo" onclick="showCatalogo()">Página <em>Uno</em></a>
   <div class="nav-center">
-    <a href="#" onclick="showCatalogo()">Tienda</a>
-    <a href="#" onclick="showNovedades()">Novedades</a>
-    <a href="#" onclick="showBestsellers()">Bestsellers</a>
-    <a href="#" onclick="showEbooks()">Ebooks</a>
+    <a href="#" onclick="irAlCatalogo('todos');return false">Tienda</a>
+    <a href="#" onclick="irAlCatalogo('novedades');return false">Novedades</a>
+    <a href="#" onclick="irAlCatalogo('bestsellers');return false">Bestsellers</a>
+    <a href="#" onclick="irAlCatalogo('ebooks');return false">Ebooks</a>
   </div>
   <div class="nav-right">
     <button class="nav-icon-btn" onclick="toggleCart()" title="Carrito">
@@ -350,8 +352,8 @@
   <div class="hero-inner">
     <div class="hero-text-col">
       <span class="hero-tag">📚 Librería Online</span>
-      <h1 class="hero-title">Encuentra tu próxima <em>gran lectura</em></h1>
-      <p class="hero-sub">Explora nuestro catálogo y descubre tu próximo libro favorito.</p>
+      <h1 class="hero-title">Encuentra tu próxima <em>gran&nbsp;lectura</em></h1>
+      <p class="hero-sub">Explora nuestro catálogo y descubre tu próximo libro&nbsp;favorito.</p>
       <div class="search-wrap">
         <input type="text" id="searchInput" placeholder="Busca por título, autor o género..." oninput="buscar(this.value)" />
         <button class="search-btn" onclick="buscar(document.getElementById('searchInput').value)">Buscar</button>
@@ -378,6 +380,9 @@
         <button class="filtro-btn" onclick="filtrar('psicologia',this)">Psicología</button>
         <button class="filtro-btn" onclick="filtrar('negocios',this)">Negocios</button>
         <button class="filtro-btn" onclick="filtrar('ciencia',this)">Ciencia</button>
+        <button class="filtro-btn" onclick="filtrar('novedades',this)">Novedades</button>
+        <button class="filtro-btn" onclick="filtrar('bestsellers',this)">Bestsellers</button>
+        <button class="filtro-btn" onclick="filtrar('ebooks',this)">Ebooks</button>
         <button class="filtro-btn" onclick="filtrar('favoritos',this)">❤️ Favoritos</button>
       </div>
       <select class="sort-select" onchange="ordenar(this.value)">
@@ -595,7 +600,7 @@
       <span class="footer-logo">Página <em>Uno</em></span>
       <p class="footer-desc">Tu librería online de confianza. Libros físicos y ebooks para cada tipo de lector y cada momento del día.</p>
     </div>
-    <div class="footer-col"><h4>Tienda</h4><a href="#">Novedades</a><a href="#">Bestsellers</a><a href="#">Ebooks</a><a href="#">Ofertas</a></div>
+    <div class="footer-col"><h4>Tienda</h4><a href="#" onclick="irAlCatalogo('novedades');return false">Novedades</a><a href="#" onclick="irAlCatalogo('bestsellers');return false">Bestsellers</a><a href="#" onclick="irAlCatalogo('ebooks');return false">Ebooks</a><a href="#">Ofertas</a></div>
     <div class="footer-col"><h4>Ayuda</h4><a href="#">Cómo comprar</a><a href="#">Envíos</a><a href="#">Devoluciones</a><a href="#">Contacto</a></div>
     <div class="footer-col"><h4>Síguenos</h4><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">TikTok</a></div>
   </div>
@@ -623,12 +628,12 @@ const libros = [
 let carrito=[], favoritos=[], filtroActual='todos', busquedaActual='', libroDetalle=null, tipoDetalle='fisico', envioSeleccionado=8.90, pagoMetodo='tarjeta';
 
 // ===== VISTAS =====
-function showView(id){
+function showView(id,sinScroll){
   ['hero','catalogo-section','detalle-view','checkout-view','confirm-view'].forEach(v=>{
     const el=document.getElementById(v);
     if(el) el.style.display = v===id ? 'block' : 'none';
   });
-  window.scrollTo({top:0,behavior:'smooth'});
+  if(!sinScroll) window.scrollTo({top:0,behavior:'smooth'});
 }
 function showCatalogo(){filtroActual='todos';busquedaActual='';document.getElementById('searchInput').value='';showView('catalogo-section');document.getElementById('hero').style.display='block';marcarFiltroActivo();document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim()==='Todos'));renderGrid();}
 function showDetalle(id){
@@ -665,6 +670,7 @@ function renderGrid(){
         ${getCoverHTML(l)}
         <span class="badge-tipo ${l.tipo.length>1?'badge-ambos':l.tipo[0]==='fisico'?'badge-fisico':'badge-ebook'}">${l.tipo.length>1?'Físico + Ebook':l.tipo[0]==='fisico'?'Físico':'Ebook'}</span>
         ${l.nuevo?'<span class="badge-nuevo">Nuevo</span>':''}
+        ${l.bestseller&&!l.nuevo?'<span class="badge-best">Bestseller</span>':''}
         <button class="fav-btn ${favoritos.includes(l.id)?'active':''}" onclick="event.stopPropagation();toggleFav(${l.id})">${favoritos.includes(l.id)?'❤️':'🤍'}</button>
       </div>
       <div class="producto-body">
@@ -699,10 +705,17 @@ function tituloCatalogo(){
   return 'Todos los libros';
 }
 
-function irAVistaFiltrada(){busquedaActual='';document.getElementById('searchInput').value='';showView('catalogo-section');document.getElementById('hero').style.display='block';document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));renderGrid();window.scrollTo({top:0,behavior:'smooth'});}
-function showNovedades(){filtroActual='novedades';irAVistaFiltrada();}
-function showBestsellers(){filtroActual='bestsellers';irAVistaFiltrada();}
-function showEbooks(){filtroActual='ebooks';irAVistaFiltrada();}
+// Menú: muestra el catálogo con el filtro pedido y baja hasta él (antes subía al inicio y parecía que no pasaba nada)
+function irAlCatalogo(f){
+  filtroActual=f;busquedaActual='';document.getElementById('searchInput').value='';
+  showView('catalogo-section',true);document.getElementById('hero').style.display='block';
+  document.querySelectorAll('.filtro-btn').forEach(b=>{const m=(b.getAttribute('onclick')||'').match(/filtrar\('([^']+)'/);b.classList.toggle('active',!!m&&m[1]===f);});
+  renderGrid();
+  document.getElementById('catalogo-section').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function showNovedades(){irAlCatalogo('novedades');}
+function showBestsellers(){irAlCatalogo('bestsellers');}
+function showEbooks(){irAlCatalogo('ebooks');}
 function marcarFiltroActivo(){document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));}
 
 function getEmoji(cat){return{novela:'📖',psicologia:'🧠',negocios:'💼',ciencia:'🔭'}[cat]||'📚'}
